@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr Lucia Marchetti — Astronomer, UCT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night:   #08090f;
+  --deep:    #0d1020;
+  --card:    #111420;
+  --border:  #1e2338;
+  --rose:    #e05c72;
+  --teal:    #3ecfcf;
+  --gold:    #e8b86d;
+  --text:    #d8dce8;
+  --muted:   #636b82;
+  --cream:   #f0ece3;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: .6;
+}
+
+/* ── NAV ──────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: rgba(8,9,15,.8);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.nav-monogram {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600; font-size: 1.4rem;
+  color: var(--cream); letter-spacing: .05em;
+}
+.nav-monogram em { color: var(--rose); font-style: normal; }
+nav ul { list-style: none; display: flex; gap: 2.2rem; }
+nav a {
+  font-family: 'DM Mono', monospace; font-size: .7rem;
+  color: var(--muted); text-decoration: none;
+  letter-spacing: .12em; text-transform: uppercase;
+  transition: color .25s;
+}
+nav a:hover { color: var(--cream); }
+
+/* ── HERO ─────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 5rem;
+}
+
+/* cosmic gradient background */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 65% at 75% 45%, rgba(62,207,207,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 20% 70%, rgba(224,92,114,.06) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 60% 10%, rgba(232,184,109,.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-text {
+  position: relative; z-index: 2;
+  padding: 4rem 3rem 4rem 4rem;
+}
+.hero-tag {
+  font-family: 'DM Mono', monospace; font-size: .68rem;
+  color: var(--teal); letter-spacing: .18em; text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: .7rem;
+}
+.hero-tag::after {
+  content: ''; display: block; width: 32px; height: 1px;
+  background: var(--teal); opacity: .6;
+}
+h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+  line-height: 1.05;
+  color: var(--cream);
+  letter-spacing: -.01em;
+  margin-bottom: .5rem;
+}
+h1 em { color: var(--rose); font-style: italic; font-weight: 300; }
+.hero-title-line {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300; font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  color: var(--gold); opacity: .85;
+  margin-bottom: 2rem;
+  letter-spacing: .02em;
+}
+.hero-bio {
+  font-size: .95rem; line-height: 1.8; color: var(--text); opacity: .82;
+  max-width: 520px; margin-bottom: 2.5rem;
+}
+.hero-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+.chip {
+  font-family: 'DM Mono', monospace; font-size: .67rem;
+  padding: .3rem .85rem; border-radius: 100px;
+  letter-spacing: .07em; text-transform: uppercase;
+  border: 1px solid; transition: all .2s;
+}
+.chip-rose  { color: var(--rose);  border-color: rgba(224,92,114,.35);  background: rgba(224,92,114,.07); }
+.chip-teal  { color: var(--teal);  border-color: rgba(62,207,207,.35);  background: rgba(62,207,207,.07); }
+.chip-gold  { color: var(--gold);  border-color: rgba(232,184,109,.35); background: rgba(232,184,109,.07); }
+.chip-pale  { color: var(--text);  border-color: rgba(255,255,255,.12); background: rgba(255,255,255,.04); }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  font-family: 'DM Mono', monospace; font-size: .72rem;
+  padding: .7rem 1.6rem; border-radius: 3px;
+  text-decoration: none; letter-spacing: .1em; text-transform: uppercase;
+  transition: all .22s; cursor: pointer; border: none;
+}
+.btn-rose { background: var(--rose); color: #fff; }
+.btn-rose:hover { background: #d04560; transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,.3); color: var(--cream); }
+
+/* ── LENSING ILLUSTRATION ─────────────────────────────── */
+.hero-art {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem;
+}
+.hero-art svg { width: 100%; max-width: 520px; }
+
+/* ── STATS STRIP ──────────────────────────────────────── */
+.stats-strip {
+  position: relative; z-index: 2;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,16,32,.6);
+}
+.stats-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 0;
+}
+.stat {
+  padding: 1.8rem 2rem;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.stat:last-child { border-right: none; }
+.stat-n {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.4rem; font-weight: 300; color: var(--cream);
+  line-height: 1; margin-bottom: .25rem;
+}
+.stat-n em { color: var(--rose); font-style: normal; }
+.stat-l {
+  font-family: 'DM Mono', monospace; font-size: .65rem;
+  color: var(--muted); letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* ── WRAP ─────────────────────────────────────────────── */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 3rem; position: relative; z-index: 2; }
+section { padding: 6rem 0; }
+.sec-tag {
+  font-family: 'DM Mono', monospace; font-size: .67rem;
+  color: var(--rose); letter-spacing: .18em; text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300; font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  color: var(--cream); letter-spacing: -.01em;
+  line-height: 1.15; margin-bottom: 1.2rem;
+}
+h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600; font-size: 1.2rem; color: var(--cream);
+  margin-bottom: .4rem;
+}
+p { color: rgba(216,220,232,.78); margin-bottom: .9rem; }
+.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ── POSITIONS ────────────────────────────────────────── */
+.pos-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 6px;
+  overflow: hidden; margin-top: 2.5rem;
+}
+.pos-cell {
+  background: var(--card); padding: 1.8rem 2rem;
+  position: relative;
+}
+.pos-cell::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+}
+.pos-cell.c-rose::before { background: var(--rose); }
+.pos-cell.c-teal::before { background: var(--teal); }
+.pos-cell.c-gold::before { background: var(--gold); }
+.pos-inst {
+  font-family: 'DM Mono', monospace; font-size: .67rem;
+  color: var(--muted); letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.pos-title { font-size: .95rem; color: var(--cream); font-weight: 400; margin-bottom: .2rem; }
+.pos-since { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--muted); }
+
+/* ── RESEARCH GRID ────────────────────────────────────── */
+.research-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.4rem; margin-top: 3rem;
+}
+.res-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 2rem;
+  transition: border-color .2s, transform .2s;
+  position: relative; overflow: hidden;
+}
+.res-card:hover { border-color: rgba(255,255,255,.15); transform: translateY(-3px); }
+.res-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+}
+.res-card.r1::after { background: linear-gradient(90deg, var(--rose), transparent); }
+.res-card.r2::after { background: linear-gradient(90deg, var(--teal), transparent); }
+.res-card.r3::after { background: linear-gradient(90deg, var(--gold), transparent); }
+.res-card.r4::after { background: linear-gradient(90deg, #a78bfa, transparent); }
+.res-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+
+/* ── PROJECTS ─────────────────────────────────────────── */
+.proj-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.4rem; margin-top: 3rem;
+}
+.proj-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 2rem;
+  transition: border-color .2s;
+}
+.proj-card:hover { border-color: rgba(255,255,255,.15); }
+.proj-badge {
+  font-family: 'DM Mono', monospace; font-size: .65rem;
+  padding: .25rem .7rem; border-radius: 100px;
+  letter-spacing: .08em; text-transform: uppercase;
+  display: inline-block; margin-bottom: 1rem;
+}
+.badge-radio  { background: rgba(62,207,207,.12); color: var(--teal); border: 1px solid rgba(62,207,207,.25); }
+.badge-lens   { background: rgba(224,92,114,.12); color: var(--rose); border: 1px solid rgba(224,92,114,.25); }
+.badge-vr     { background: rgba(167,139,250,.12); color: #a78bfa;    border: 1px solid rgba(167,139,250,.25); }
+.badge-survey { background: rgba(232,184,109,.12); color: var(--gold); border: 1px solid rgba(232,184,109,.25); }
+.proj-desc { font-size: .9rem; color: rgba(216,220,232,.72); line-height: 1.7; }
+
+/* ── PAPERS ───────────────────────────────────────────── */
+.paper-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: .9rem; }
+.paper {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1.3rem 1.6rem;
+  display: flex; gap: 1.2rem; align-items: flex-start;
+  transition: border-color .2s;
+}
+.paper:hover { border-color: rgba(255,255,255,.15); }
+.paper-year {
+  font-family: 'DM Mono', monospace; font-size: .68rem;
+  color: var(--rose); min-width: 38px; padding-top: .2rem;
+  letter-spacing: .05em;
+}
+.paper-body { flex: 1; }
+.paper-title { font-size: .93rem; color: var(--cream); margin-bottom: .2rem; font-weight: 400; }
+.paper-meta { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--muted); }
+
+/* ── OUTREACH ─────────────────────────────────────────── */
+.outreach-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem; margin-top: 2.5rem;
+}
+.out-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 1.6rem;
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.out-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: .1rem; }
+.out-text h4 { font-size: .95rem; color: var(--cream); margin-bottom: .3rem; font-weight: 400; }
+.out-text p { font-size: .82rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+/* ── CONTACT ──────────────────────────────────────────── */
+#contact { background: var(--deep); }
+.contact-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+}
+.contact-links { display: flex; flex-direction: column; gap: .75rem; margin-top: 1.5rem; }
+.contact-link {
+  display: flex; align-items: center; gap: .9rem;
+  font-family: 'DM Mono', monospace; font-size: .75rem;
+  color: var(--muted); text-decoration: none;
+  letter-spacing: .05em; transition: color .2s;
+}
+.contact-link:hover { color: var(--teal); }
+.contact-link-icon { font-size: 1rem; }
+.affilbadge-list { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
+.affilbadge {
+  font-family: 'DM Mono', monospace; font-size: .65rem;
+  padding: .3rem .8rem; border-radius: 3px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--border);
+  color: var(--muted); letter-spacing: .06em;
+}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border); padding: 2rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: 'DM Mono', monospace; font-size: .65rem;
+  color: var(--muted); letter-spacing: .06em;
+  position: relative; z-index: 2;
+}
+footer a { color: var(--rose); text-decoration: none; }
+
+/* ── ANIMATIONS ───────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lensRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes pulse {
+  0%,100% { opacity: .5; r: 6; }
+  50% { opacity: 1; r: 8; }
+}
+@keyframes arcGlow {
+  0%,100% { opacity: .35; }
+  50%      { opacity: .7; }
+}
+
+.hero-text > * {
+  animation: fadeUp .7s ease both;
+}
+.hero-tag   { animation-delay: .1s; }
+h1          { animation-delay: .2s; }
+.hero-title-line { animation-delay: .3s; }
+.hero-bio   { animation-delay: .4s; }
+.hero-chips { animation-delay: .5s; }
+.hero-cta   { animation-delay: .6s; }
+
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.fade-up.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 860px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-art { display: none; }
+  nav { padding: 1rem 1.5rem; }
+  nav ul { gap: 1.2rem; }
+  .wrap { padding: 0 1.5rem; }
+  .stats-inner { grid-template-columns: 1fr 1fr; }
+  .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+  footer { flex-direction: column; gap: .5rem; text-align: center; }
+}
+@media (max-width: 540px) {
+  nav ul { display: none; }
+  .hero-text { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-monogram">L<em>.</em>Marchetti</div>
+  <ul>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#papers">Papers</a></li>
+    <li><a href="#outreach">Outreach</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-tag">University of Cape Town · IDIA Vislab</div>
+    <h1>Dr Lucia<br><em>Marchetti</em></h1>
+    <div class="hero-title-line">Senior Lecturer in Astronomy &amp; Director, IDIA Visualisation Lab</div>
+    <p class="hero-bio">
+      I study how galaxies form and evolve across cosmic time — tracing star formation through infrared and radio light, searching for gravitational lenses that magnify the distant universe, and building new tools to let astronomers <em>step inside</em> their data using virtual reality.
+    </p>
+    <div class="hero-chips">
+      <span class="chip chip-rose">Galaxy Evolution</span>
+      <span class="chip chip-rose">Strong Lensing</span>
+      <span class="chip chip-teal">Radio Astronomy</span>
+      <span class="chip chip-teal">MeerKAT · LSST</span>
+      <span class="chip chip-gold">VR Visualisation</span>
+      <span class="chip chip-pale">NRF Rated Researcher</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#research" class="btn btn-rose">Explore Research</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <!-- Gravitational Lensing SVG Illustration -->
+  <div class="hero-art">
+    <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bg0" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#0d1020"/>
+          <stop offset="100%" stop-color="#08090f"/>
+        </radialGradient>
+        <radialGradient id="lens0" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#e8b86d" stop-opacity=".9"/>
+          <stop offset="40%"  stop-color="#e05c72" stop-opacity=".4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="src1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#3ecfcf" stop-opacity=".95"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
+        <filter id="blur8"><feGaussianBlur stdDeviation="8"/></filter>
+        <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
+        <!-- Einstein ring glow -->
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Deep space background -->
+      <circle cx="250" cy="250" r="220" fill="url(#bg0)" opacity=".85"/>
+
+      <!-- Background stars -->
+      <circle cx="80"  cy="90"  r="1"   fill="#fff" opacity=".45"/>
+      <circle cx="420" cy="70"  r=".8"  fill="#fff" opacity=".35"/>
+      <circle cx="440" cy="400" r="1.2" fill="#fff" opacity=".5"/>
+      <circle cx="60"  cy="380" r=".7"  fill="#fff" opacity=".3"/>
+      <circle cx="160" cy="440" r="1"   fill="#fff" opacity=".4"/>
+      <circle cx="380" cy="440" r=".8"  fill="#fff" opacity=".35"/>
+      <circle cx="100" cy="240" r=".6"  fill="#3ecfcf" opacity=".5"/>
+      <circle cx="400" cy="160" r=".8"  fill="#3ecfcf" opacity=".4"/>
+      <circle cx="350" cy="410" r="1"   fill="#e05c72" opacity=".5"/>
+      <circle cx="140" cy="150" r=".9"  fill="#e8b86d" opacity=".45"/>
+      <circle cx="390" cy="250" r=".7"  fill="#fff" opacity=".3"/>
+      <circle cx="120" cy="310" r=".8"  fill="#fff" opacity=".35"/>
+      <circle cx="300" cy="80"  r=".7"  fill="#fff" opacity=".3"/>
+      <circle cx="200" cy="430" r="1"   fill="#fff" opacity=".4"/>
+
+      <!-- Lensing galaxy glow (background) -->
+      <ellipse cx="250" cy="250" r="75" ry="55" fill="url(#lens0)" filter="url(#blur8)" opacity=".7" transform="rotate(-18 250 250)"/>
+
+      <!-- Einstein ring arcs -->
+      <!-- Upper arc -->
+      <path d="M 120 185 Q 190 100 290 125 Q 370 145 390 210"
+            stroke="#3ecfcf" stroke-width="2.5" fill="none" opacity=".7"
+            filter="url(#glow)" style="animation: arcGlow 3.5s ease-in-out infinite"/>
+      <!-- Lower arc -->
+      <path d="M 120 315 Q 185 398 285 375 Q 362 355 395 292"
+            stroke="#3ecfcf" stroke-width="2" fill="none" opacity=".55"
+            filter="url(#blur2)" style="animation: arcGlow 3.5s ease-in-out 1.75s infinite"/>
+      <!-- Faint full ring -->
+      <ellipse cx="250" cy="250" rx="148" ry="142" stroke="#3ecfcf" stroke-width=".5" fill="none" opacity=".12"
+        stroke-dasharray="4 8"/>
+
+      <!-- Foreground lens galaxy (elliptical) -->
+      <ellipse cx="250" cy="250" rx="52" ry="38" fill="#1a1228" transform="rotate(-18 250 250)"/>
+      <ellipse cx="250" cy="250" rx="44" ry="32" fill="url(#lens0)" filter="url(#blur4)" opacity=".85" transform="rotate(-18 250 250)"/>
+      <ellipse cx="250" cy="250" rx="20" ry="14" fill="#e8b86d" filter="url(#blur2)" opacity=".9" transform="rotate(-18 250 250)"/>
+      <ellipse cx="250" cy="250" rx="6"  ry="4"  fill="#fff" opacity=".9" transform="rotate(-18 250 250)"/>
+
+      <!-- Source galaxy (top) -->
+      <circle cx="249" cy="130" r="7" fill="url(#src1)" filter="url(#blur4)" opacity=".85"/>
+      <circle cx="249" cy="130" r="3" fill="#3ecfcf" opacity=".95" style="animation: pulse 2.5s ease-in-out infinite"/>
+
+      <!-- Deflected light rays from source to arcs -->
+      <line x1="249" y1="133" x2="160" y2="198" stroke="#3ecfcf" stroke-width=".6" opacity=".2"/>
+      <line x1="249" y1="133" x2="340" y2="198" stroke="#3ecfcf" stroke-width=".6" opacity=".2"/>
+
+      <!-- Measurement annotation -->
+      <line x1="252" y1="135" x2="252" y2="240" stroke="#e8b86d" stroke-width=".5" stroke-dasharray="3 4" opacity=".35"/>
+      <circle cx="252" cy="248" r="2" fill="#e8b86d" opacity=".5"/>
+
+      <!-- Label -->
+      <text x="262" y="172" font-family="'DM Mono', monospace" font-size="8" fill="#e8b86d" opacity=".5">θ_E</text>
+
+      <!-- Outer decoration ring -->
+      <circle cx="250" cy="250" r="210" stroke="rgba(255,255,255,.04)" stroke-width="1" fill="none"/>
+      <circle cx="250" cy="250" r="195" stroke="rgba(255,255,255,.03)" stroke-width=".5" fill="none" stroke-dasharray="2 12"/>
+
+      <!-- Caption text -->
+      <text x="250" y="482" font-family="'DM Mono', monospace" font-size="7.5" fill="rgba(216,220,232,.3)"
+            text-anchor="middle" letter-spacing="2">STRONG GRAVITATIONAL LENSING</text>
+    </svg>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat fade-up">
+      <div class="stat-n">186<em>+</em></div>
+      <div class="stat-l">Publications</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-n">7,<em>6</em>k</div>
+      <div class="stat-l">Citations (h=44)</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-n">13<em>+</em></div>
+      <div class="stat-l">Students Graduated</div>
+    </div>
+    <div class="stat fade-up">
+      <div class="stat-n">2024</div>
+      <div class="stat-l">Rubin/LSST SA PI</div>
+    </div>
+  </div>
+</div>
+
+<!-- POSITIONS -->
+<div class="wrap" style="padding-top:5rem">
+  <div class="sec-tag fade-up">Current Positions</div>
+  <div class="pos-grid fade-up">
+    <div class="pos-cell c-rose">
+      <div class="pos-inst">UCT Department of Astronomy</div>
+      <div class="pos-title">Senior Lecturer in Astronomy</div>
+      <div class="pos-since">Since March 2020</div>
+    </div>
+    <div class="pos-cell c-teal">
+      <div class="pos-inst">IDIA / University of Cape Town</div>
+      <div class="pos-title">Director, IDIA Visualisation Laboratory</div>
+      <div class="pos-since">Since September 2023</div>
+    </div>
+    <div class="pos-cell c-gold">
+      <div class="pos-inst">Vera Rubin Observatory / LSST</div>
+      <div class="pos-title">South African Principal Investigator</div>
+      <div class="pos-since">Since 2024</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="wrap">
+    <div class="sec-tag fade-up">Research Themes</div>
+    <h2 class="fade-up">Mapping the Obscured Universe</h2>
+    <p class="fade-up" style="max-width:680px">
+      My research spans the multi-wavelength identification and physical characterisation of extragalactic populations — from the most luminous infrared galaxies to the faintest radio sources — using some of the world's most powerful observatories.
+    </p>
+    <div class="research-grid">
+      <div class="res-card r1 fade-up">
+        <span class="res-icon">🔴</span>
+        <h3>Infrared Galaxy Evolution</h3>
+        <p style="font-size:.9rem">Luminosity functions, star formation rate densities, and the cosmic evolution of infrared-luminous galaxies using Herschel, Spitzer, AKARI, and now Rubin/LSST — tracing how galaxies build their stellar mass across 10 billion years.</p>
+      </div>
+      <div class="res-card r2 fade-up">
+        <span class="res-icon">🌀</span>
+        <h3>Strong Gravitational Lensing</h3>
+        <p style="font-size:.9rem">Systematic discovery and characterisation of strong gravitational lens candidates from Herschel sub-mm surveys, including the largest sample of sub-mm selected lenses to date. Multi-wavelength follow-up with HST, SALT, ALMA, and NOEMA.</p>
+      </div>
+      <div class="res-card r3 fade-up">
+        <span class="res-icon">📡</span>
+        <h3>Radio Continuum Science</h3>
+        <p style="font-size:.9rem">AGN versus star-formation decomposition using MeerKAT, as PI of the MeerLIRGs survey (298 Southern LIRGs from the IRAS RBGS). Member of the MIGHTEE and EMU consortia, contributing multi-wavelength characterisation of radio source populations.</p>
+      </div>
+      <div class="res-card r4 fade-up">
+        <span class="res-icon">🥽</span>
+        <h3>Immersive Data Visualisation</h3>
+        <p style="font-size:.9rem">Director of the IDIA Vislab: developing iDaVIE, an open-source virtual reality software for interactive analysis of astronomical data cubes. Enabling astronomers to enter their data and discover structure invisible on a flat screen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- KEY PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-tag fade-up">Key Projects</div>
+    <h2 class="fade-up">Surveys, Software &amp; Collaborations</h2>
+    <div class="proj-grid">
+
+      <div class="proj-card fade-up">
+        <span class="proj-badge badge-radio">MeerKAT Survey</span>
+        <h3>MeerLIRGs</h3>
+        <p class="proj-desc">PI of the MeerKAT 1.28 GHz survey of all 298 Southern Luminous Infrared Galaxies in the IRAS Revised Bright Galaxy Sample — the most complete radio census of local dusty galaxies in the Southern hemisphere, probing the infrared–radio correlation and AGN/starburst interplay.</p>
+      </div>
+
+      <div class="proj-card fade-up">
+        <span class="proj-badge badge-lens">Gravitational Lensing</span>
+        <h3>SALT Strong Lensing Legacy</h3>
+        <p class="proj-desc">Project Scientist of a 300-hour SALT spectroscopic programme to confirm and characterise ~200 strong gravitational lens candidates selected from Herschel sub-mm surveys — among the largest lens samples for follow-up with ALMA and JWST.</p>
+      </div>
+
+      <div class="proj-card fade-up">
+        <span class="proj-badge badge-vr">VR Software</span>
+        <h3>iDaVIE</h3>
+        <p class="proj-desc">Director of the development of iDaVIE (immersive Data Visualisation Interactive Explorer) — an open-source VR tool for scientific analysis of 3D astronomical data cubes. Developed at the IDIA Vislab in collaboration with INAF-OACT and publicly released in 2024.</p>
+      </div>
+
+      <div class="proj-card fade-up">
+        <span class="proj-badge badge-lens">Herschel Legacy</span>
+        <h3>HELP &amp; HerMES</h3>
+        <p class="proj-desc">Co-lead of the Data Fusion working group within the Herschel Extragalactic Legacy Project (HELP), delivering multi-wavelength photometric databases across all major Herschel survey fields. Core member of the HerMES and H-ATLAS consortia since 2009.</p>
+      </div>
+
+      <div class="proj-card fade-up">
+        <span class="proj-badge badge-survey">Future Surveys</span>
+        <h3>Rubin/LSST</h3>
+        <p class="proj-desc">South African Principal Investigator for the Vera C. Rubin Observatory LSST. Member of the LSST Strong Lensing Science Collaboration, focused on exploiting LSST's unprecedented depth and cadence for systematic strong lens discovery and galaxy evolution science.</p>
+      </div>
+
+      <div class="proj-card fade-up">
+        <span class="proj-badge badge-survey">Spectroscopic Survey</span>
+        <h3>4MOST 4HS</h3>
+        <p class="proj-desc">Data Management Unit / Catalogue / Database Manager for the 4MOST Hemisphere Survey of the Nearby Universe (4HS). Leading the data deliverable strategy and planning for this all-sky spectroscopic survey of the local Universe.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PAPERS -->
+<section id="papers">
+  <div class="wrap">
+    <div class="sec-tag fade-up">Selected Publications</div>
+    <h2 class="fade-up">Recent &amp; Representative Work</h2>
+    <p class="fade-up" style="max-width:640px; margin-bottom:0">186+ publications · 126 refereed · h-index 44 · 7,661 citations.
+      Full list via <a href="https://bit.ly/4cXgQKi" style="color:var(--teal)">ADS</a> · ORCID <a href="https://orcid.org/0000-0003-3948-7621" style="color:var(--teal)">0000-0003-3948-7621</a></p>
+
+    <div class="paper-list">
+
+      <div class="paper fade-up">
+        <div class="paper-year">2025</div>
+        <div class="paper-body">
+          <div class="paper-title">Probing the infrared–radio correlation of the full IRAS Revised Bright Galaxy Sample with MeerKAT and the VLA</div>
+          <div class="paper-meta">Moloko, Marchetti et al. — MNRAS 543, 2463</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2026</div>
+        <div class="paper-body">
+          <div class="paper-title">iDaVIE v1.0: A virtual reality tool for interactive analysis of astronomical data cubes</div>
+          <div class="paper-meta">Sivitilli, Marchetti et al. — Astronomy &amp; Computing 56, 101109</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2025</div>
+        <div class="paper-body">
+          <div class="paper-title">A Galactic-scale Magnetized Wind around a Normal Star-forming Galaxy</div>
+          <div class="paper-meta">Matthews, Cotton, Peters, Marchetti et al. — ApJL 978, L25</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2024</div>
+        <div class="paper-body">
+          <div class="paper-title">Characterization of Herschel-selected strong lens candidates through HST and sub-mm/mm observations</div>
+          <div class="paper-meta">Borsato, Marchetti et al. — MNRAS 528, 6222</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2024</div>
+        <div class="paper-body">
+          <div class="paper-title">MIGHTEE: Multi-wavelength counterparts in the COSMOS field</div>
+          <div class="paper-meta">Whittam, Prescott, Marchetti et al. — MNRAS 527, 3231</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2023</div>
+        <div class="paper-body">
+          <div class="paper-title">Optical and mid-infrared line emission in nearby Seyfert galaxies</div>
+          <div class="paper-meta">Feltre, Gruppioni, Marchetti et al. — A&amp;A 675, A74</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2021</div>
+        <div class="paper-body">
+          <div class="paper-title">A MeerKAT 1.28 GHz Atlas of Southern Sources in the IRAS Revised Bright Galaxy Sample</div>
+          <div class="paper-meta">Condon, Cotton, Jarrett, Marchetti et al. — ApJS 257, 35</div>
+        </div>
+      </div>
+
+      <div class="paper fade-up">
+        <div class="paper-year">2016</div>
+        <div class="paper-body">
+          <div class="paper-title">The HerMES submillimetre local and low-redshift luminosity functions</div>
+          <div class="paper-meta">Marchetti et al. — MNRAS 456, 1999</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- OUTREACH -->
+<section id="outreach">
+  <div class="wrap">
+    <div class="sec-tag fade-up">Science Communication &amp; Outreach</div>
+    <h2 class="fade-up">Taking Astronomy to the World</h2>
+    <p class="fade-up" style="max-width:640px">
+      Science communication is a core part of my mission. I believe every astronomer has a responsibility to share their discoveries — from school classrooms to planetarium domes to the halls of the British Parliament.
+    </p>
+    <div class="outreach-grid">
+      <div class="out-card fade-up">
+        <div class="out-icon">🌍</div>
+        <div class="out-text">
+          <h4>African Planetarium Association</h4>
+          <p>Co-founder and Advisor of the APA, the African regional node of the International Planetarium Society, connecting planetaria across the continent.</p>
+        </div>
+      </div>
+      <div class="out-card fade-up">
+        <div class="out-icon">🧫</div>
+        <div class="out-text">
+          <h4>Soapbox Science Cape Town</h4>
+          <p>Coordinator of Soapbox Science Cape Town since 2019 — putting women scientists on public plinths in the streets of Cape Town to inspire and challenge.</p>
+        </div>
+      </div>
+      <div class="out-card fade-up">
+        <div class="out-icon">🌐</div>
+        <div class="out-text">
+          <h4>Data2Dome Initiative</h4>
+          <p>Leadership of the Data2Dome initiative at the Iziko Planetarium, bridging cutting-edge astronomy data and immersive fulldome visualisation for public audiences.</p>
+        </div>
+      </div>
+      <div class="out-card fade-up">
+        <div class="out-icon">💡</div>
+        <div class="out-text">
+          <h4>International Year of Light 2015</h4>
+          <p>Chair of the Education &amp; Outreach Working Group for IYL2015 in the UK; represented the Open University at UNESCO Paris and at St James's Palace, London.</p>
+        </div>
+      </div>
+      <div class="out-card fade-up">
+        <div class="out-icon">🎓</div>
+        <div class="out-text">
+          <h4>IAU Division J Secretary</h4>
+          <p>Elected Secretary of the IAU Division J Galaxies &amp; Cosmology Steering Committee. IAU/International Planetarium Society liaison since 2018.</p>
+        </div>
+      </div>
+      <div class="out-card fade-up">
+        <div class="out-icon">🎭</div>
+        <div class="out-text">
+          <h4>Art Meets Science</h4>
+          <p>Scientific Advisor for the "Hemelliggaam" art project; performed as mezzo-soprano and actress in public science events — because astronomy deserves poetry too.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <div>
+        <div class="sec-tag fade-up">Get in Touch</div>
+        <h2 class="fade-up">Collaborations &amp;<br>Enquiries Welcome</h2>
+        <p class="fade-up">Whether you are a prospective student, a potential collaborator, or simply curious about the universe — I am always happy to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:lucia.marchetti@uct.ac.za" class="contact-link fade-up">
+            <span class="contact-link-icon">✉</span> lucia.marchetti@uct.ac.za
+          </a>
+          <a href="https://vislab.idia.ac.za" class="contact-link fade-up" target="_blank">
+            <span class="contact-link-icon">🔬</span> IDIA Visualisation Lab
+          </a>
+          <a href="https://www.astro.uct.ac.za" class="contact-link fade-up" target="_blank">
+            <span class="contact-link-icon">🏛</span> UCT Department of Astronomy
+          </a>
+          <a href="https://orcid.org/0000-0003-3948-7621" class="contact-link fade-up" target="_blank">
+            <span class="contact-link-icon">🆔</span> ORCID 0000-0003-3948-7621
+          </a>
+          <a href="https://bit.ly/4cXgQKi" class="contact-link fade-up" target="_blank">
+            <span class="contact-link-icon">📄</span> Full Publication List (ADS)
+          </a>
+        </div>
+      </div>
+      <div class="fade-up">
+        <div class="sec-tag" style="margin-top:0.3rem">Affiliations &amp; Consortia</div>
+        <div class="affilbadge-list" style="margin-top:1rem">
+          <span class="affilbadge">UCT Astronomy</span>
+          <span class="affilbadge">IDIA</span>
+          <span class="affilbadge">MIGHTEE</span>
+          <span class="affilbadge">EMU</span>
+          <span class="affilbadge">HerMES / HELP</span>
+          <span class="affilbadge">H-ATLAS</span>
+          <span class="affilbadge">LSST SLSC</span>
+          <span class="affilbadge">Euclid</span>
+          <span class="affilbadge">4MOST 4HS</span>
+          <span class="affilbadge">SERVS</span>
+          <span class="affilbadge">AKARI</span>
+          <span class="affilbadge">SARAO</span>
+          <span class="affilbadge">NRF Rated</span>
+          <span class="affilbadge">RAS Fellow</span>
+          <span class="affilbadge">IAU Member</span>
+          <span class="affilbadge">AfAS Member</span>
+        </div>
+
+        <div class="sec-tag" style="margin-top:2.5rem">Location</div>
+        <p style="margin-top:.8rem; font-size:.9rem; color:var(--muted)">
+          Department of Astronomy<br>
+          University of Cape Town<br>
+          Private Bag X3, Rondebosch 7701<br>
+          Cape Town, South Africa
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Dr Lucia Marchetti · UCT / IDIA · Cape Town, South Africa</span>
+  <span>
+    <a href="mailto:lucia.marchetti@uct.ac.za">lucia.marchetti@uct.ac.za</a>
+    &nbsp;·&nbsp;
+    <a href="https://vislab.idia.ac.za" target="_blank">IDIA Vislab</a>
+    &nbsp;·&nbsp;
+    <a href="https://orcid.org/0000-0003-3948-7621" target="_blank">ORCID</a>
+  </span>
+</footer>
+
+<script>
+// Scroll fade-in
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      const siblings = [...e.target.parentElement.querySelectorAll('.fade-up:not(.in)')];
+      const delay = Math.min(siblings.indexOf(e.target) * 90, 400);
+      setTimeout(() => e.target.classList.add('in'), delay);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// Animated lensing ring
+const ring = document.querySelector('ellipse[stroke-dasharray="4 8"]');
+if (ring) {
+  let offset = 0;
+  setInterval(() => {
+    offset = (offset + .3) % 12;
+    ring.setAttribute('stroke-dashoffset', offset);
+  }, 40);
+}
+</script>
+</body>
+</html>
